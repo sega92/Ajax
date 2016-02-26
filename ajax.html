@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div id="demo"><h2>Let AJAX change this text</h2></div>
+
+<select id = "people"></select>
+<button type="button" onclick="loadDoc()">Change Content</button>
+
+<div id = "demo"></div>  
+    
+<script>
+function loadDoc() {
+  //Making an AJAX Call  
+    
+  //Creating an HTTP Object
+  var xhttp = new XMLHttpRequest();
+    
+  //Receiving the data requested from the server
+  xhttp.onreadystatechange = function() {
+      
+  if (xhttp.readyState == 4) {    
+  //Receiving the data
+  data1 = xhttp.responseText;
+      
+  data = JSON.parse(data1);
+   
+  //loop and place into the select element
+    for(var i = 0, l = data.person.length; i < l; i++ ){
+      
+      var x = document.getElementById("people");
+      var option = document.createElement("option");
+      option.text = data.person[i].name;
+     
+      x.add(option);
+    }
+      
+    //Conditions need to be made for the request to be successful  
+    
+    //***Comment out the if statement when testing in the local environment  
+    //***if (xhttp.readyState == 4 && xhttp.status == 200) {
+        
+    //Receiving the data
+      //document.getElementById("demo").innerHTML = xhttp.responseText;
+    }
+       
+      
+  };
+    
+  //Opening the HTTP Request
+  xhttp.open("GET", "person.json", true);
+  //Send the request to the server
+  xhttp.send();
+}
+</script>
+
+</body>
+</html>
